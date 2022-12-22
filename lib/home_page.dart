@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:test/model/quizMod.dart';
 import 'package:test/widgets/quizBtn.dart';
@@ -11,7 +13,49 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int index = 1;
+  int index = 0;
+  List jooptor = <bool>[];
+  List tuuraJooptor = <bool>[];
+  List kataJooptor = <bool>[];
+
+  void teksher(bool value) {
+    if (quizzes[index].answer == value) {
+      jooptor.add(true);
+      tuuraJooptor.add(true);
+    } else {
+      jooptor.add(false);
+      kataJooptor.add(false);
+    }
+    setState(() {
+      if (quizzes[index] == quizzes.last) {
+        showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                title: const Text('Test jyiyntygy:'),
+                content: Text(
+                    'tuura jooptor ${tuuraJooptor.length}. Kata jooptor ${kataJooptor.length}'),
+                actions: [
+                  TextButton(
+                      onPressed: () {
+                        setState(() {
+                          index = 0;
+                          jooptor.clear();
+                          tuuraJooptor.clear();
+                          kataJooptor.clear();
+                          Navigator.pop(context);
+                        });
+                      },
+                      child: const Text('Janydan bashtoo'))
+                ],
+              );
+            });
+        index = 0;
+      } else {
+        index++;
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,22 +75,32 @@ class _HomePageState extends State<HomePage> {
             const SizedBox(
               height: 100,
             ),
-            const QuizButton(
+            QuizButton(
               tuuraBtnbu: true,
+              baskanda: (maani) {
+                teksher(maani);
+              },
             ),
             const SizedBox(
               height: 20,
             ),
-            const QuizButton(
+            QuizButton(
               tuuraBtnbu: false,
+              baskanda: (maani) {
+                teksher(maani);
+              },
             ),
             const SizedBox(height: 50),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                ResultIcon(tuurIconbu: true),
-                ResultIcon(tuurIconbu: false),
-              ],
+            SizedBox(
+              height: 40,
+              child: ListView.builder(
+                  itemCount: jooptor.length,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, i) {
+                    return jooptor[i]
+                        ? const ResultIcon(tuurIconbu: true)
+                        : const ResultIcon(tuurIconbu: false);
+                  }),
             ),
             const SizedBox(height: 50),
           ],
