@@ -1,4 +1,4 @@
-import 'dart:developer';
+
 
 import 'package:flutter/material.dart';
 import 'package:test/model/quizMod.dart';
@@ -34,7 +34,7 @@ class _HomePageState extends State<HomePage> {
               return AlertDialog(
                 title: const Text('Test jyiyntygy:'),
                 content: Text(
-                    'tuura jooptor ${tuuraJooptor.length}. Kata jooptor ${kataJooptor.length}'),
+                    'tuura jooptor ${tuuraJooptor.length}.Kata jooptor ${kataJooptor.length}'),
                 actions: [
                   TextButton(
                       onPressed: () {
