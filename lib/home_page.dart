@@ -50,7 +50,7 @@ class _HomePageState extends State<HomePage> {
                 ],
               );
             });
-        index = 0;
+      
       } else {
         index++;
       }
